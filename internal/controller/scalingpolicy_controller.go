@@ -47,9 +47,18 @@ type ScalingPolicyReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.19.0/pkg/reconcile
 func (r *ScalingPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+	log := log.FromContext(ctx)
 
-	// TODO(user): your logic here
+	// Fetch the ScalingPolicy resource
+	var policy scalingv1alpha1.ScalingPolicy
+	if err := r.Get(ctx, req.NamespacedName, &policy); err != nil {
+		log.Error(err, "Failed to get ScalingPolicy")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	log.Info("Reconciling ScalingPolicy", "name", policy.Name)
+
+	// TODO(user): Add Prometheus integration and scaling logic here
 
 	return ctrl.Result{}, nil
 }
