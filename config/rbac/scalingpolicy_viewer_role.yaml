@@ -1,0 +1,23 @@
+# permissions for end users to view scalingpolicies.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: stateful-auto-scaler
+    app.kubernetes.io/managed-by: kustomize
+  name: scalingpolicy-viewer-role
+rules:
+- apiGroups:
+  - scaling.example.com
+  resources:
+  - scalingpolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - scaling.example.com
+  resources:
+  - scalingpolicies/status
+  verbs:
+  - get
