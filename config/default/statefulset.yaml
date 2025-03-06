@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stateful-auto-scaler
+  namespace: system
+spec:
+  serviceName: "stateful-auto-scaler"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stateful-auto-scaler
+  template:
+    metadata:
+      labels:
+        app: stateful-auto-scaler
+    spec:
+      containers:
+      - name: stateful-auto-scaler
+        image: controller:latest  # Ensure this image is available
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
