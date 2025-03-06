@@ -54,15 +54,26 @@ type ScalingPolicyReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.19.0/pkg/reconcile
 
-func updateStatefulSetReplicas(ctx context.Context, c client.Client, name string, replicas int32) error {
+func updateStatefulSetReplicas(ctx context.Context, c client.Client, statefulSetName string, replicas int32) error {
 	sts := &appsv1.StatefulSet{}
-	err := c.Get(ctx, types.NamespacedName{Name: name, Namespace: "default"}, sts)
+
+	// Fetch the StatefulSet
+	err := c.Get(ctx, types.NamespacedName{Name: statefulSetName, Namespace: "default"}, sts)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get StatefulSet %s: %w", statefulSetName, err)
 	}
 
+	// Update the replica count
 	sts.Spec.Replicas = &replicas
-	return c.Update(ctx, sts)
+
+	// Apply the update
+	err = c.Update(ctx, sts)
+	if err != nil {
+		return fmt.Errorf("failed to update replicas for StatefulSet %s: %w", statefulSetName, err)
+	}
+
+	fmt.Printf("Successfully updated StatefulSet %s to %d replicas\n", statefulSetName, replicas)
+	return nil
 }
 
 func (r *ScalingPolicyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
