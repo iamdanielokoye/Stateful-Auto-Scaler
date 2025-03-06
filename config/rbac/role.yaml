@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   namespace: system
-  name: stateful-auto-scaler-role
+  name: stateful-auto-scaler-role, scalingpolicy-role
 rules:
 - apiGroups:
   - scaling.example.com

@@ -1,5 +1,5 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   labels:
     app.kubernetes.io/name: stateful-auto-scaler
@@ -8,9 +8,9 @@ metadata:
   namespace: system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: stateful-auto-scaler-role
+  kind: ClusterRole
+  name: scalingpolicy-role
 subjects:
 - kind: ServiceAccount
-  name: controller-manager
+  name: default
   namespace: system
