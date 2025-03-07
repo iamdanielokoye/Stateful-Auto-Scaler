@@ -1,0 +1,9 @@
+apiVersion: scaling.example.com/v1alpha1
+kind: ScalingPolicy
+metadata:
+  name: test-scaling-policy
+spec:
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 70
