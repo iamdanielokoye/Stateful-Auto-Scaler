@@ -4,6 +4,9 @@ metadata:
   name: test-scaling-policy
 spec:
   minReplicas: 2
-  maxReplicas: 5
+  maxReplicas: 10
+  cpuThreshold: 75
+  memoryThreshold: 80
+  metricSource: "prometheus"
   targetCPUUtilizationPercentage: 60
   targetMemoryUtilizationPercentage: 70
